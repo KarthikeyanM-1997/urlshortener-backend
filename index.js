@@ -11,7 +11,7 @@ const MongoClient = require('mongodb').MongoClient;
 
 var randomstring = require("randomstring");
 
-const uri = "mongodb+srv://userOne:userOne@cluster0-4ntyu.mongodb.net/<dbname>?retryWrites=true&w=majority";
+const uri = "mongodb+srv://userOne:userOne@cluster0-4ntyu.mongodb.net/prodDbOne?retryWrites=true&w=majority";
 
 app.use(bodyParser.json());
 
@@ -56,7 +56,7 @@ app.post("/register", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("pordDbOne");
+        var dbObject = db.db("prodDbOne");
 
         dbObject.collection("userCollOne").find({ email: email }).toArray(function (err, data) {
             if (err) throw err;
@@ -93,7 +93,7 @@ app.post("/login", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("pordDbOne");
+        var dbObject = db.db("prodDbOne");
 
         var testObj = { email: email, pass: pass };
 
@@ -125,7 +125,7 @@ app.post("/resetStepOne", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("pordDbOne");
+        var dbObject = db.db("prodDbOne");
 
         var testObj = { email: email };
 
@@ -167,7 +167,7 @@ app.post("/resetStepTwo", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("pordDbOne");
+        var dbObject = db.db("prodDbOne");
 
         dbObject.collection("userCollOne").find({ email: email }).toArray(function (err, data) {
             if (err) throw err;
