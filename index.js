@@ -9,7 +9,7 @@ var randomstring = require("randomstring");
 
 const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
-
+app.use(cors())
 
 require('dotenv').config()
 
