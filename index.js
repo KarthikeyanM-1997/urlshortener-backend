@@ -7,7 +7,7 @@ var app = express();
 
 app.use(cors());
 
-const { MongoClient } = require('mongodb');
+const MongoClient = require('mongodb').MongoClient;
 
 var randomstring = require("randomstring");
 
@@ -51,7 +51,7 @@ app.post("/register", function (req, res) {
 
     console.log(req.body);
 
-    const client = new MongoClient(uri);
+    const client = new MongoClient(uri, { useNewUrlParser: true });
 
     client.connect(function (err, db) {
         if (err) throw err;
@@ -88,7 +88,7 @@ app.post("/login", function (req, res) {
 
     console.log(email + " " + pass);
 
-    const client = new MongoClient(uri);
+    const client = new MongoClient(uri, { useNewUrlParser: true });
 
     client.connect(function (err, db) {
         if (err) throw err;
@@ -120,7 +120,7 @@ app.post("/login", function (req, res) {
 app.post("/resetStepOne", function (req, res) {
     var email = req.body.email;
 
-    const client = new MongoClient(uri);
+    const client = new MongoClient(uri, { useNewUrlParser: true });
 
     client.connect(function (err, db) {
         if (err) throw err;
@@ -162,7 +162,7 @@ app.post("/resetStepTwo", function (req, res) {
     let email = req.body.email;
     let newPass = req.body.newPass;
 
-    const client = new MongoClient(uri);
+    const client = new MongoClient(uri, { useNewUrlParser: true });
 
     client.connect(function (err, db) {
         if (err) throw err;
