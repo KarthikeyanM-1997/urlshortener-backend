@@ -3,15 +3,17 @@ const bodyParser = require('body-parser');
 var cors = require('cors');
 const fs = require('fs');
 
+var app = express();
+
+app.use(cors());
+
 const { MongoClient } = require('mongodb');
 
 var randomstring = require("randomstring");
 
 const uri = "mongodb+srv://userOne:userOne@cluster0-4ntyu.mongodb.net/<dbname>?retryWrites=true&w=majority";
 
-var app = express();
 
-app.use(cors());
 
 app.use(bodyParser.json());
 
