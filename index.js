@@ -1,5 +1,7 @@
 var express = require('express');
+
 var app = express();
+
 const bodyParser = require('body-parser');
 
 var cors = require('cors')
@@ -8,8 +10,8 @@ var randomstring = require("randomstring");
 
 
 const { MongoClient } = require('mongodb');
+
 const bcrypt = require('bcrypt');
-app.use(cors())
 
 require('dotenv').config()
 
