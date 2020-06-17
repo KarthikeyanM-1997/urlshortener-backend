@@ -31,6 +31,12 @@ var transporter = nodemailer.createTransport({
 });
 
 
+var server = app.listen(process.env.PORT || 8080, function () {
+    var host = server.address().address;
+    var port = server.address().port;
+
+    console.log("Example app listening at http://%s:%s", host, port)
+})
 
 
 
@@ -38,12 +44,6 @@ app.get('/', function (req, res) {
     res.status(200).send('/register to register. /login to login. /reset to reset password');
 })
 
-var server = app.listen(process.env.PORT || 8080, function () {
-    var host = server.address().address;
-    var port = server.address().port;
-
-    console.log("Example app listening at http://%s:%s", host, port)
-})
 
 app.post("/register", function (req, res) {
     var email = req.body.email;
