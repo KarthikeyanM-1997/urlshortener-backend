@@ -1,24 +1,24 @@
 var express = require('express');
-
-var app = express();
-
 const bodyParser = require('body-parser');
-
 var cors = require('cors')
+const fs = require('fs');
+
+const { MongoClient } = require('mongodb');
 
 var randomstring = require("randomstring");
+
+const uri = "mongodb+srv://userOne:userOne@cluster0-4ntyu.mongodb.net/<dbname>?retryWrites=true&w=majority";
+
+var app = express();
 
 app.use(cors());
 
 app.use(bodyParser.json());
 
-const { MongoClient } = require('mongodb');
-
 const bcrypt = require('bcrypt');
 
 require('dotenv').config()
 
-const uri = "mongodb+srv://userOne:userOne@cluster0-4ntyu.mongodb.net/<dbname>?retryWrites=true&w=majority";
 
 var nodemailer = require('nodemailer');
 
@@ -184,7 +184,7 @@ app.post("/resetStepTwo", function (req, res) {
                         });
                     });
                 }
-                else{
+                else {
                     res.status(400).send("Invalid secret");
                 }
             }
