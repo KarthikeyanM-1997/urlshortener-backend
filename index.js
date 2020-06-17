@@ -13,8 +13,6 @@ var randomstring = require("randomstring");
 
 const uri = "mongodb+srv://userOne:userOne@cluster0-4ntyu.mongodb.net/<dbname>?retryWrites=true&w=majority";
 
-
-
 app.use(bodyParser.json());
 
 const bcrypt = require('bcrypt');
