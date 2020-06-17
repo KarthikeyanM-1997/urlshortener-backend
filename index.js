@@ -53,9 +53,9 @@ app.post("/register", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDb");
+        var dbObject = db.db("pordDbOne");
 
-        dbObject.collection("testUserCollTwo").find({ email: email }).toArray(function (err, data) {
+        dbObject.collection("userCollOne").find({ email: email }).toArray(function (err, data) {
             if (err) throw err;
             if (data.length > 0) {
                 console.log("Present");
@@ -67,7 +67,7 @@ app.post("/register", function (req, res) {
                     let secretString = randomstring.generate(8);
                     var testObj = { email: email, pass: hash, secretString: secretString };
                     console.log(testObj);
-                    dbObject.collection("testUserCollTwo").insertOne(testObj, function (err, resp) {
+                    dbObject.collection("userCollOne").insertOne(testObj, function (err, resp) {
                         if (err) throw err;
                         res.end("Email Registered !");
                         db.close();
@@ -90,11 +90,11 @@ app.post("/login", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDb");
+        var dbObject = db.db("pordDbOne");
 
         var testObj = { email: email, pass: pass };
 
-        dbObject.collection("testUserCollTwo").find({ email: email }).toArray(function (err, data) {
+        dbObject.collection("userCollOne").find({ email: email }).toArray(function (err, data) {
             if (err) throw err;
             if (data.length > 0) {
                 bcrypt.compare(pass, data[0].pass, function (err, result) {
@@ -122,11 +122,11 @@ app.post("/resetStepOne", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDb");
+        var dbObject = db.db("pordDbOne");
 
         var testObj = { email: email };
 
-        dbObject.collection("testUserCollTwo").find({ email: email }).toArray(function (err, data) {
+        dbObject.collection("userCollOne").find({ email: email }).toArray(function (err, data) {
             if (err) throw err;
             if (data.length > 0) {
                 var mailOptions = {
@@ -164,9 +164,9 @@ app.post("/resetStepTwo", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDb");
+        var dbObject = db.db("pordDbOne");
 
-        dbObject.collection("testUserCollTwo").find({ email: email }).toArray(function (err, data) {
+        dbObject.collection("userCollOne").find({ email: email }).toArray(function (err, data) {
             if (err) throw err;
             if (data.length > 0) {
                 if (data[0].secretString === secret) {
@@ -174,7 +174,7 @@ app.post("/resetStepTwo", function (req, res) {
                     bcrypt.hash(newPass, 10, function (error, hash) {
                         var newvalues = { $set: { email: email, pass: hash, secretString: secretString } };
 
-                        dbObject.collection("testUserCollTwo").updateOne({ email: email }, newvalues, function (dberr, dbdata) {
+                        dbObject.collection("userCollOne").updateOne({ email: email }, newvalues, function (dberr, dbdata) {
                             if (dberr) throw dberr;
                             res.status(200).send("Password updated");
                             db.close();
