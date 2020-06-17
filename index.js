@@ -35,7 +35,7 @@ app.get('/', function (req, res) {
     res.status(200).send('/register to register. /login to login. /reset to reset password');
 })
 
-var server = app.listen(8080, function () {
+var server = app.listen(process.env.PORT || 8080, function () {
     var host = server.address().address;
     var port = server.address().port;
 
