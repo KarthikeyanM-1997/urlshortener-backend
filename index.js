@@ -8,6 +8,9 @@ var cors = require('cors')
 
 var randomstring = require("randomstring");
 
+app.use(cors());
+
+app.use(bodyParser.json());
 
 const { MongoClient } = require('mongodb');
 
@@ -29,9 +32,7 @@ var transporter = nodemailer.createTransport({
 
 
 
-app.use(cors());
 
-app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
     res.status(200).send('/register to register. /login to login. /reset to reset password');
