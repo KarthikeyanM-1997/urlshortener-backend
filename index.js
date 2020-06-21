@@ -284,7 +284,7 @@ app.post("/shorten", [tokenAuthorization], function (req, res) {
 
                     dbObject.collection("urlCollTwo").insertOne(dbRecord, function (error2, data) {
                         if (error2) throw error2;
-                        res.status(200).json({ message: "URL Successfully shortened", link: "http://localhost:8080/" + shortURL });
+                        res.status(200).json({ message: "URL Successfully shortened", link: process.env.SERVER + shortURL });
                         db.close();
                     });
 
