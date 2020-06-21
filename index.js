@@ -359,7 +359,7 @@ function sendVerifyMail(email) {
                 var mailOptions = {
                     from: 'karthikeyan1997@gmail.com',
                     to: email,
-                    subject: 'Test nodejs account verify secret',
+                    subject: 'URL Shortener Verification Mail',
                     text: "Click here to verify account !",
                     html: htmlString
                 };
@@ -400,7 +400,7 @@ app.post("/resetStepOne", function (req, res) {
                 var mailOptions = {
                     from: 'karthikeyan1997@gmail.com',
                     to: email,
-                    subject: 'Test nodejs password reset secret',
+                    subject: 'URL Shortener password reset',
                     text: 'The secret is ' + data[0].secretString
                 };
 
