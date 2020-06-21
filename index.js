@@ -62,9 +62,9 @@ app.post("/register", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDbFive");
+        var dbObject = db.db("testDbSix");
 
-        dbObject.collection("userCollOne").find({ email: email }).toArray(function (err, data) {
+        dbObject.collection("userCollTwo").find({ email: email }).toArray(function (err, data) {
             if (err) throw err;
             if (data.length > 0) {
                 console.log("Present");
@@ -77,7 +77,7 @@ app.post("/register", function (req, res) {
                     let verifyString = randomstring.generate(4);
                     var testObj = { email: email, pass: hash, secretString: secretString, verifyString: verifyString, verified: false, role: "User" };
                     console.log(testObj);
-                    dbObject.collection("userCollOne").insertOne(testObj, function (err, resp) {
+                    dbObject.collection("userCollTwo").insertOne(testObj, function (err, resp) {
                         if (err) throw err;
                         res.end("Email Registered ! Check inbox for verification link !");
                         sendVerifyMail(email);
@@ -99,11 +99,11 @@ app.post("/login", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDbFive");
+        var dbObject = db.db("testDbSix");
 
         var testObj = { email: email, pass: pass };
 
-        dbObject.collection("userCollOne").find({ email: email }).toArray(function (err, data) {
+        dbObject.collection("userCollTwo").find({ email: email }).toArray(function (err, data) {
             if (err) throw err;
             if (data.length > 0) {
                 console.log(data[0]);
@@ -152,7 +152,7 @@ app.get("/dashboard", [tokenAuthorization], function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDbFive");
+        var dbObject = db.db("testDbSix");
 
         dbObject.collection("urlCollTwo").find({ email: email }).toArray(function (err, data) {
             if (err) throw err;
@@ -216,11 +216,11 @@ app.get("/verify", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDbFive");
+        var dbObject = db.db("testDbSix");
 
         var testObj = { email: email };
 
-        dbObject.collection("userCollOne").find({ email: email }).toArray(function (err, data) {
+        dbObject.collection("userCollTwo").find({ email: email }).toArray(function (err, data) {
             if (err) throw err;
             if (data.length > 0) {
                 if (data[0].verified === true) {
@@ -231,7 +231,7 @@ app.get("/verify", function (req, res) {
 
                         var newvalues = { $set: { email: data[0].email, pass: data[0].pass, secretString: data[0].secretString, verifyString: data[0].verifyString, verified: true, role: "User" } };
 
-                        dbObject.collection("userCollOne").updateOne({ email: email }, newvalues, function (dberr, dbdata) {
+                        dbObject.collection("userCollTwo").updateOne({ email: email }, newvalues, function (dberr, dbdata) {
                             if (dberr) throw dberr;
                             res.status(200).send("Account verified");
                         });
@@ -272,7 +272,7 @@ app.post("/shorten", [tokenAuthorization], function (req, res) {
         client.connect(function (dbError, db) {
             if (dbError) throw dbError;
 
-            var dbObject = db.db("testDbFive");
+            var dbObject = db.db("testDbSix");
 
             var dbRecord = { shortURL: shortURL, longURL: url, email: email, count: 0 };
 
@@ -308,7 +308,7 @@ app.get("/:shortURL", function (req, res) {
     client.connect(function (err, db) {
         var dbRecord = { shortURL: shortURL };
 
-        var dbObject = db.db("testDbFive");
+        var dbObject = db.db("testDbSix");
 
         var longURL = "";
 
@@ -346,11 +346,11 @@ function sendVerifyMail(email) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDbFive");
+        var dbObject = db.db("testDbSix");
 
         var testObj = { email: email };
 
-        dbObject.collection("userCollOne").find({ email: email }).toArray(function (err, data) {
+        dbObject.collection("userCollTwo").find({ email: email }).toArray(function (err, data) {
             if (err) throw err;
             if (data.length > 0) {
                 console.log(email + " : " + data[0].verifyString);
@@ -390,11 +390,11 @@ app.post("/resetStepOne", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDbFive");
+        var dbObject = db.db("testDbSix");
 
         var testObj = { email: email };
 
-        dbObject.collection("userCollOne").find({ email: email }).toArray(function (err, data) {
+        dbObject.collection("userCollTwo").find({ email: email }).toArray(function (err, data) {
             if (err) throw err;
             if (data.length > 0) {
                 var mailOptions = {
@@ -407,7 +407,7 @@ app.post("/resetStepOne", function (req, res) {
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
                         console.log(error);
-                        res.status(500).send("error");
+                        res.status(500).send("Error ! Please try again !");
                     } else {
                         console.log('Email sent: ' + info.response);
                         res.status(200).send('Email sent. Check Inbox');
@@ -432,9 +432,9 @@ app.post("/resetStepTwo", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDbFive");
+        var dbObject = db.db("testDbSix");
 
-        dbObject.collection("userCollOne").find({ email: email }).toArray(function (err, data) {
+        dbObject.collection("userCollTwo").find({ email: email }).toArray(function (err, data) {
             if (err) throw err;
             if (data.length > 0) {
                 if (data[0].secretString === secret) {
@@ -442,7 +442,7 @@ app.post("/resetStepTwo", function (req, res) {
                     bcrypt.hash(newPass, 10, function (error, hash) {
                         var newvalues = { $set: { email: email, pass: hash, secretString: secretString } };
 
-                        dbObject.collection("userCollOne").updateOne({ email: email }, newvalues, function (dberr, dbdata) {
+                        dbObject.collection("userCollTwo").updateOne({ email: email }, newvalues, function (dberr, dbdata) {
                             if (dberr) throw dberr;
                             res.status(200).send("Password updated");
                             db.close();
