@@ -62,7 +62,7 @@ app.post("/register", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDbFour");
+        var dbObject = db.db("testDbFive");
 
         dbObject.collection("userCollTwo").find({ email: email }).toArray(function (err, data) {
             if (err) throw err;
@@ -73,7 +73,7 @@ app.post("/register", function (req, res) {
             else {
                 console.log("Not Present");
                 bcrypt.hash(pass, 10, function (err, hash) {
-                    let secretString = randomstring.generate(8);
+                    let secretString = randomstring.generate(4);
                     let verifyString = randomstring.generate(4);
                     var testObj = { email: email, pass: hash, secretString: secretString, verifyString: verifyString, verified: false, role: "User" };
                     console.log(testObj);
@@ -99,7 +99,7 @@ app.post("/login", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDbFour");
+        var dbObject = db.db("testDbFive");
 
         var testObj = { email: email, pass: pass };
 
@@ -152,7 +152,7 @@ app.get("/dashboard", [tokenAuthorization], function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDbFour");
+        var dbObject = db.db("testDbFive");
 
         dbObject.collection("urlCollTwo").find({ email: email }).toArray(function (err, data) {
             if (err) throw err;
@@ -216,7 +216,7 @@ app.get("/verify", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDbFour");
+        var dbObject = db.db("testDbFive");
 
         var testObj = { email: email };
 
@@ -265,14 +265,14 @@ app.post("/shorten", [tokenAuthorization], function (req, res) {
 
         var email = value['email'];
 
-        var shortURL = randomstring.generate(8);
+        var shortURL = randomstring.generate(4);
 
         const client = new MongoClient(uri, { useNewUrlParser: true });
 
         client.connect(function (dbError, db) {
             if (dbError) throw dbError;
 
-            var dbObject = db.db("testDbFour");
+            var dbObject = db.db("testDbFive");
 
             var dbRecord = { shortURL: shortURL, longURL: url, email: email, count: 0 };
 
@@ -308,7 +308,7 @@ app.get("/:shortURL", function (req, res) {
     client.connect(function (err, db) {
         var dbRecord = { shortURL: shortURL };
 
-        var dbObject = db.db("testDbFour");
+        var dbObject = db.db("testDbFive");
 
         var longURL = "";
 
@@ -346,7 +346,7 @@ function sendVerifyMail(email) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDbFour");
+        var dbObject = db.db("testDbFive");
 
         var testObj = { email: email };
 
@@ -390,7 +390,7 @@ app.post("/resetStepOne", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDbFour");
+        var dbObject = db.db("testDbFive");
 
         var testObj = { email: email };
 
@@ -432,13 +432,13 @@ app.post("/resetStepTwo", function (req, res) {
     client.connect(function (err, db) {
         if (err) throw err;
 
-        var dbObject = db.db("testDbFour");
+        var dbObject = db.db("testDbFive");
 
         dbObject.collection("userCollTwo").find({ email: email }).toArray(function (err, data) {
             if (err) throw err;
             if (data.length > 0) {
                 if (data[0].secretString === secret) {
-                    let secretString = randomstring.generate(8);
+                    let secretString = randomstring.generate(4);
                     bcrypt.hash(newPass, 10, function (error, hash) {
                         var newvalues = { $set: { email: email, pass: hash, secretString: secretString } };
 
