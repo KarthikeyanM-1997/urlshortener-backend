@@ -354,7 +354,7 @@ function sendVerifyMail(email) {
             if (err) throw err;
             if (data.length > 0) {
                 console.log(email + " : " + data[0].verifyString);
-                let htmlString = `<a href="http://localhost:8080/verify?email=${email}&verifyString=${data[0].verifyString}">Click here to verify account !</a>`;
+                let htmlString = `<a href="${provess.end.SERVER}verify?email=${email}&verifyString=${data[0].verifyString}">Click here to verify account !</a>`;
                 console.log(htmlString);
                 var mailOptions = {
                     from: 'karthikeyan1997@gmail.com',
